@@ -4,18 +4,25 @@ set(CMAKE_SYSTEM_PROCESSOR aarch64)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # Toolchain prefix
-set(TOOLCHAIN_PREFIX aarch64-elf)
+set(TOOLCHAIN_PREFIXES
+    aarch64-none-elf
+    aarch64-elf
+)
 
-find_program(CMAKE_C_COMPILER   ${TOOLCHAIN_PREFIX}-gcc)
-find_program(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++)
-find_program(CMAKE_ASM_COMPILER ${TOOLCHAIN_PREFIX}-gcc)
-find_program(CMAKE_AR           ${TOOLCHAIN_PREFIX}-ar)
-find_program(CMAKE_LINKER       ${TOOLCHAIN_PREFIX}-ld)
-find_program(CMAKE_OBJCOPY      ${TOOLCHAIN_PREFIX}-objcopy)
-find_program(CMAKE_OBJDUMP      ${TOOLCHAIN_PREFIX}-objdump)
+foreach(prefix IN LISTS TOOLCHAIN_PREFIXES)
+    if(NOT CMAKE_C_COMPILER)
+        find_program(CMAKE_C_COMPILER   ${prefix}-gcc)
+        find_program(CMAKE_CXX_COMPILER ${prefix}-g++)
+        find_program(CMAKE_ASM_COMPILER ${prefix}-gcc)
+        find_program(CMAKE_AR           ${prefix}-ar)
+        find_program(CMAKE_LINKER       ${prefix}-ld)
+        find_program(CMAKE_OBJCOPY      ${prefix}-objcopy)
+        find_program(CMAKE_OBJDUMP      ${prefix}-objdump)
+    endif()
+endforeach()
 
 if (NOT CMAKE_C_COMPILER)
-    message(FATAL_ERROR "${TOOLCHAIN_PREFIX}-gcc not found in PATH")
+    message(FATAL_ERROR "No AArch64 bare-metal toolchain found (aarch64-none-elf or aarch64-elf)")
 endif()
 
 # Bare-metal flags

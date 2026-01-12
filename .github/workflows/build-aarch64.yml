@@ -29,11 +29,13 @@ jobs:
             gcc-aarch64-elf binutils-aarch64-elf \
             qemu-system-arm
 
-      - name: Configure (${{ matrix.config.name }})
-        run: cmake --preset ${{ matrix.config.preset }}
+      - name: Setup environment
+        run: ./setup.sh
 
       - name: Build (${{ matrix.config.name }})
-        run: cmake --build --preset ${{ matrix.config.preset }}
+        run: |
+          cmake --preset ${{ matrix.config.preset }}
+          cmake --build --preset ${{ matrix.config.preset }}
 
       - name: Upload ${{ matrix.config.name }} artifact
         uses: actions/upload-artifact@v4

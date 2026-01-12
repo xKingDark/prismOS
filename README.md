@@ -8,45 +8,34 @@ A freestanding AArch64 (ARMv8) operating system kernel made for fun.
 ### Build Tools (All Platforms)
 - [CMake](https://cmake.org/download) ≥ 3.24
 - Ninja
-- AArch64 ELF cross toolchain
-  - `aarch64-elf-gcc`
-  - `aarch64-elf-g++`
-  - `aarch64-elf-ld`
-  - `aarch64-elf-ar`
-  - `aarch64-elf-objcopy`
-  - `aarch64-elf-objdump`
-> [!WARNING]
-> This project targets bare-metal AArch64.
-> Do not use `aarch64-linux-gnu-gcc`.
+- QEMU (`qemu-system-aarch64`)
 
----
-### Runtime
-QEMU with `qemu-system-aarch64`
+> [!NOTE]
+> The AArch64 bare-metal toolchain is automatically downloaded and configured by `setup.sh`.
+> No manual toolchain installation is required.
 
 ## Platform Setup
-### macOS (Intel & Apple Silicon)
-```shell
-brew install cmake ninja qemu aarch64-elf-gcc
-```
 ### Linux (Debian / Ubuntu)
 ```shell
 sudo apt update
-sudo apt install \
-    cmake ninja-build qemu-system-arm \
-    gcc-aarch64-elf binutils-aarch64-elf
 ```
+
+Then run
+```shell
+./setup.sh
+```
+
+### macOS (Intel & Apple Silicon)
+Install [Homebrew](https://brew.sh), then run
+```shell
+./setup.sh
+```
+
 ### Windows
 Recommended options:
+- [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) (Ubuntu)
 
-Option A: MSYS2 (MinGW64 shell)
-```shell
-pacman -S \
-    mingw-w64-x86_64-cmake \
-    mingw-w64-x86_64-ninja \
-    mingw-w64-x86_64-qemu \
-    mingw-w64-x86_64-aarch64-elf-gcc
-```
-Option B: WSL2 — Use Ubuntu and follow the Linux instructions.
+After cloning the repository, follow the Linux instructions.
 
 ## Quick Start
 This project uses CMake Presets for consistent builds.
