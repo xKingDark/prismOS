@@ -52,7 +52,16 @@ else
 fi
 
 # Done
+TOOLCHAIN_BIN="$TOOLCHAIN_DIR/$ARM_GNU_NAME/bin"
+
+# For local shell
+export PATH="$TOOLCHAIN_BIN:$PATH"
+
+# For GitHub Actions
+if [[ -n "$GITHUB_PATH" ]]; then
+    echo "$TOOLCHAIN_BIN" >> "$GITHUB_PATH"
+fi
+
 echo
-echo "Setup complete."
-echo "Add the following to your shell config if you want the toolchain globally:"
-echo "  export PATH=\"$TOOLCHAIN_DIR/$ARM_GNU_NAME/bin:\$PATH\""
+echo "Toolchain added to PATH:"
+echo "  $TOOLCHAIN_BIN"
