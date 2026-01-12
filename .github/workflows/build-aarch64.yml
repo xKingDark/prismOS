@@ -26,7 +26,6 @@ jobs:
           sudo apt update
           sudo apt install -y \
             cmake ninja-build \
-            gcc-aarch64-elf binutils-aarch64-elf \
             qemu-system-arm
 
       - name: Setup environment
