@@ -1,0 +1,30 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 8,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "aarch64-debug",
+            "displayName": "AArch64 Debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/toolchains/aarch64.cmake"
+            }
+        },
+        {
+            "name": "aarch64-release",
+            "displayName": "AArch64 Release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/toolchains/aarch64.cmake"
+            }
+        }
+    ]
+}

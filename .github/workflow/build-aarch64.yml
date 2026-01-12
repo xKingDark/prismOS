@@ -1,0 +1,50 @@
+name: Build prismOS (AArch64)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        config:
+          - name: Debug
+            preset: aarch64-debug
+            build_dir: build/aarch64-debug
+          - name: Release
+            preset: aarch64-release
+            build_dir: build/aarch64-release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            cmake ninja-build \
+            gcc-aarch64-elf binutils-aarch64-elf \
+            qemu-system-arm
+
+      - name: Configure (${{ matrix.config.name }})
+        run: cmake --preset ${{ matrix.config.preset }}
+
+      - name: Build (${{ matrix.config.name }})
+        run: cmake --build --preset ${{ matrix.config.preset }}
+
+      - name: Upload ${{ matrix.config.name }} artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prismOS-${{ matrix.config.preset }}
+          files: |
+            ${{ matrix.config.build_dir }}/prismOS.aarch64.bin
+            ${{ matrix.config.build_dir }}/prismOS.aarch64.elf
+            ${{ matrix.config.build_dir }}/prismOS.aarch64.map
+
+      - name: QEMU boot test (Debug only)
+        if: matrix.config.name == 'Debug'
+        run: |
+          timeout 5s ./run-aarch64.sh ${{ matrix.config.name }} || true
