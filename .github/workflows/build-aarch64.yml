@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: prismOS-${{ matrix.config.preset }}
-          files: |
+          path: |
             ${{ matrix.config.build_dir }}/prismOS.aarch64.bin
             ${{ matrix.config.build_dir }}/prismOS.aarch64.elf
             ${{ matrix.config.build_dir }}/prismOS.aarch64.map
